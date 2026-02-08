@@ -58,3 +58,4 @@ Thumbs.db
 .env
 .venv
 /.claude/settings.local.json
+/CLAUDE.md

@@ -54,6 +54,12 @@ class OpenAIProvider(AIProvider):
     def parse(self, prompt: str, context: Dict[str, Any]) -> Dict[str, Any]:
         """Parse using OpenAI API with JSON mode."""
         try:
+            # Log AI request (truncated for readability)
+            prompt_preview = prompt[:100] + "..." if len(prompt) > 100 else prompt
+            print(f"  🤖 调用 AI (OpenAI):", flush=True)
+            print(f"    模型: {self.default_model}", flush=True)
+            print(f"    提示词: {prompt_preview}", flush=True)
+
             response = self.client.chat.completions.create(
                 model=self.default_model,
                 messages=[{"role": "user", "content": prompt}],
@@ -62,6 +68,10 @@ class OpenAIProvider(AIProvider):
                 timeout=120.0,  # Increase timeout to 120 seconds
             )
             result = response.choices[0].message.content
+
+            # Log AI response (truncated for readability)
+            result_preview = result[:100] + "..." if len(result) > 100 else result
+            print(f"    AI 响应: {result_preview}", flush=True)
 
             # Validate JSON before parsing
             if not result or not result.strip():
@@ -80,7 +90,9 @@ class OpenAIProvider(AIProvider):
                 if "```" in result:
                     result = result.split("```")[0].strip()
 
-            return json.loads(result)
+            parsed = json.loads(result)
+            print(f"    解析结果: {parsed}", flush=True)
+            return parsed
         except json.JSONDecodeError as e:
             raise Exception(f"Failed to parse JSON response: {str(e)}\nResponse was: {result[:500]}")
         except Exception as e:
@@ -117,6 +129,12 @@ class AnthropicProvider(AIProvider):
             schema = context.get("schema", {})
             required = context.get("required", [])
 
+            # Log AI request (truncated for readability)
+            prompt_preview = prompt[:100] + "..." if len(prompt) > 100 else prompt
+            print(f"  🤖 调用 AI (Anthropic):", flush=True)
+            print(f"    模型: {self.default_model}", flush=True)
+            print(f"    提示词: {prompt_preview}", flush=True)
+
             system_prompt = prompt + "\n\nRespond only with a JSON object matching the required schema."
 
             response = self.client.messages.create(
@@ -128,6 +146,10 @@ class AnthropicProvider(AIProvider):
 
             # Extract the content
             content = response.content[0].text
+
+            # Log AI response (truncated for readability)
+            content_preview = content[:100] + "..." if len(content) > 100 else content
+            print(f"    AI 响应: {content_preview}", flush=True)
 
             # Validate content before parsing
             if not content or not content.strip():
@@ -141,7 +163,9 @@ class AnthropicProvider(AIProvider):
             elif "```" in content:
                 content = content.split("```")[1].split("```")[0].strip()
 
-            return json.loads(content)
+            parsed = json.loads(content)
+            print(f"    解析结果: {parsed}", flush=True)
+            return parsed
         except json.JSONDecodeError as e:
             raise Exception(f"Failed to parse JSON response: {str(e)}\nResponse was: {content[:500]}")
         except Exception as e:

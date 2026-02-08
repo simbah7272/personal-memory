@@ -11,6 +11,7 @@ A lightweight personal data recording and management platform powered by AI natu
 - 💼 **Work Logging**: Track tasks, hours, and achievements
 - 🎮 **Leisure Activities**: Log free time activities and enjoyment levels
 - 📊 **Reports**: Generate daily, weekly, and monthly summaries
+- 🤖 **Feishu Bot Integration**: Add and query data via Feishu with natural language
 
 ## Installation
 
@@ -148,6 +149,104 @@ pm report monthly
 # Report for a specific date
 pm report daily 2025-01-15
 ```
+
+## Feishu Bot Integration
+
+Personal Memory now supports Feishu bot integration for easy data tracking through chat!
+
+**New**: Uses SDK long-connection mode - no public URL required!
+
+### Quick Setup
+
+1. **Configure Environment Variables**:
+
+```bash
+# Add to your .env file
+FEISHU_APP_ID=cli_xxxxxxxxxxxxx
+FEISHU_APP_SECRET=your_app_secret_here
+```
+
+2. **Start the Bot Service**:
+
+```bash
+pm serve
+```
+
+3. **Configure Feishu Bot**:
+
+- Go to [Feishu Open Platform](https://open.feishu.cn/app)
+- Create a new app or use existing one
+- Enable "使用长连接接收事件" (Use long-connection mode)
+- Subscribe to `im.message.receive_v1` event
+
+**That's it!** No need for webhooks, ngrok, or public URLs.
+
+For detailed setup instructions, see [FEISHU_SETUP.md](FEISHU_SETUP.md) or [FEISHU_QUICKSTART.md](FEISHU_QUICKSTART.md).
+
+### Usage Examples
+
+Once configured, you can interact with the bot directly in Feishu:
+
+#### Adding Records
+
+```
+📝 Add finance record:
+"今天花了50块买午饭"
+✓ Response: ✅ 已添加：💸 午饭 ¥50.00
+
+📝 Add health record:
+"昨晚睡了8小时，睡得很好"
+✓ Response: ✅ 已添加：😴 睡眠 8h - 很好
+
+📝 Add work record:
+"今天工作了4小时，完成开发任务"
+✓ Response: ✅ 已添加：💼 完成开发任务 (4h)
+
+📝 Add leisure record:
+"看了2小时电影"
+✓ Response: ✅ 已添加：🎮 电影 (2h)
+```
+
+#### Smart Query (Natural Language)
+
+```
+🔍 Query expenses:
+"查询本周花费"
+📊 Response:
+💸 财务统计 (2025-01-13 至 2025-01-19)
+支出: ¥500.00
+收入: ¥2000.00
+结余: ¥1500.00
+
+🔍 Query work records:
+"看看今天的工作记录"
+📊 Response:
+💼 工作记录
+📅 2025-01-19 | ⏱ 4h | 完成开发任务
+总计: 4h
+
+🔍 Complex query:
+"上个月在餐饮上花了多少钱"
+📊 Response: 📊 上个月餐饮支出：¥1,234.56
+```
+
+#### Quick Commands
+
+```
+/help    - Show help message
+/daily   - Daily report
+/weekly  - Weekly report
+/monthly - Monthly report
+/list    - Recent records
+```
+
+### Key Features
+
+- 🤖 **Smart Intent Recognition**: Automatically detects if you're adding a record or querying data
+- 💬 **Pure Natural Language**: No need for specific commands - just talk naturally
+- 🎯 **Keyword Detection**: Recognizes query intents from context ("查询", "看看", "多少", etc.)
+- 🔍 **Flexible Queries**: Ask questions in your own words
+- 📱 **Multi-user Support**: Each user gets their own data space
 
 ## Natural Language Examples
 
