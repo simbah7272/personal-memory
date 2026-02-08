@@ -1,4 +1,4 @@
-Parse the following text into a work record. Extract task name, duration, value description, tags, and date.
+Parse the following text into a work record. Extract task_type, task name, duration, value description, priority, status, and date.
 
 Text: {text}
 
@@ -6,28 +6,58 @@ IMPORTANT: Respond ONLY with a raw JSON object. Do NOT wrap it in markdown code 
 
 Required JSON format (exactly match this structure):
 {{
+  "task_type": "string (one of: 开发, 会议, 文档, 学习, 管理, 协作)",
   "task_name": "name of the task or activity",
   "duration_hours": number (e.g., 8.0),
   "value_description": "what value was created or achieved (or null)",
-  "tags": "comma-separated tags (or null)",
-  "status": "completed",
+  "project_id": null or number,
+  "priority": "string (one of: high, medium, low)",
+  "status": "string (one of: todo, in_progress, completed, cancelled)",
+  "tags": ["array", "of", "tags"] or null,
   "record_date": "YYYY-MM-DD (use today if not specified: {today})"
 }}
 
+Task Types:
+- 开发: 编码, 写代码, 编程, 调试, bug, 代码评审, 重构
+- 会议: 开会, 站会, 评审会, 沟通, 汇报, 讨论
+- 文档: 写文档, 需求文档, 设计文档, 技术文档, 总结
+- 学习: 学习技术, 看文档, 学工具, 研究
+- 管理: 项目管理, 计划, 分配任务, 跟进, 复盘
+- 协作: 代码review, 协助, 支持, 指导他人
+
+Priority Levels:
+- high: urgent, important, 紧急, 重要
+- medium: normal, regular (default)
+- low: minor, trivial, 次要
+
+Status Values:
+- todo: planned but not started
+- in_progress: currently working on
+- completed: finished (default for completed work)
+- cancelled: cancelled
+
 Rules:
 - Extract the main task/activity as task_name
+- Determine the most appropriate task_type
 - Duration should be in hours as a decimal number
 - Try to identify the value or outcome of the work
-- Tags can include project names, technologies, or work categories
-- Status is typically "completed" for past work
+- Extract relevant tags from the text (project names, technologies, etc.)
+- Default priority is "medium" unless clearly indicated otherwise
+- Default status is "completed" for past work
 - If date is not specified, use today's date
 
 Examples:
 Input: "今天工作8小时，完成了用户认证模块"
-Output: {{"task_name": "完成了用户认证模块", "duration_hours": 8.0, "value_description": "完成用户认证功能开发", "tags": "开发,用户认证", "status": "completed", "record_date": "{today}"}}
+Output: {{"task_type": "开发", "task_name": "完成了用户认证模块", "duration_hours": 8.0, "value_description": "完成用户认证功能开发", "project_id": null, "priority": "medium", "status": "completed", "tags": ["开发", "用户认证"], "record_date": "{today}"}}
 
 Input: "开了2个小时会，讨论了产品方案"
-Output: {{"task_name": "开会讨论产品方案", "duration_hours": 2.0, "value_description": "讨论并确定产品方案", "tags": "会议,产品", "status": "completed", "record_date": "{today}"}}
+Output: {{"task_type": "会议", "task_name": "开会讨论产品方案", "duration_hours": 2.0, "value_description": "讨论并确定产品方案", "project_id": null, "priority": "medium", "status": "completed", "tags": ["会议", "产品"], "record_date": "{today}"}}
 
-Input: "修复了3个bug"
-Output: {{"task_name": "修复bug", "duration_hours": 2.0, "value_description": "修复3个bug", "tags": "开发,修复", "status": "completed", "record_date": "{today}"}}
+Input: "修复了3个bug，很紧急"
+Output: {{"task_type": "开发", "task_name": "修复bug", "duration_hours": 2.0, "value_description": "修复3个紧急bug", "project_id": null, "priority": "high", "status": "completed", "tags": ["开发", "修复", "bug"], "record_date": "{today}"}}
+
+Input: "写了技术文档，记录了API接口"
+Output: {{"task_type": "文档", "task_name": "编写API技术文档", "duration_hours": 3.0, "value_description": "记录API接口文档", "project_id": null, "priority": "medium", "status": "completed", "tags": ["文档", "API"], "record_date": "{today}"}}
+
+Input: "在学习新的框架"
+Output: {{"task_type": "学习", "task_name": "学习新框架", "duration_hours": 4.0, "value_description": "学习新框架技术", "project_id": null, "priority": "medium", "status": "in_progress", "tags": ["学习", "技术提升"], "record_date": "{today}"}}

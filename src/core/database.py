@@ -52,3 +52,18 @@ def init_db():
     from src.core.models import Base
 
     Base.metadata.create_all(bind=engine)
+
+
+def drop_all_tables():
+    """Drop all database tables (use with caution!)."""
+    from src.core.models import Base
+
+    Base.metadata.drop_all(bind=engine)
+
+
+def reset_db():
+    """Drop all tables and recreate them (use with caution!)."""
+    from src.core.models import Base
+
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)

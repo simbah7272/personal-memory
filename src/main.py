@@ -5,7 +5,7 @@ import sys
 import typer
 from rich.console import Console
 
-from src.cli import finance, health, work, leisure, report
+from src.cli import finance, health, work, leisure, learning, social, goal, report
 from src.config import settings
 from src.core.database import init_db
 
@@ -21,6 +21,24 @@ def init():
         console.print("[green]✓[/green] Database initialized successfully!")
     except Exception as e:
         console.print(f"[red]✗[/red] Failed to initialize database: {e}")
+        raise typer.Exit(1)
+
+
+@app.command()
+def reset():
+    """Reset the database (drop all tables and recreate)"""
+    try:
+        console.print("[yellow]⚠[/yellow] This will delete all data!")
+        confirm = typer.confirm("Are you sure you want to reset the database?")
+        if not confirm:
+            console.print("Cancelled.")
+            raise typer.Exit(0)
+
+        from src.core.database import reset_db
+        reset_db()
+        console.print("[green]✓[/green] Database reset successfully!")
+    except Exception as e:
+        console.print(f"[red]✗[/red] Failed to reset database: {e}")
         raise typer.Exit(1)
 
 
@@ -82,6 +100,9 @@ app.add_typer(finance.app, name="finance", help="Finance tracking")
 app.add_typer(health.app, name="health", help="Health tracking")
 app.add_typer(work.app, name="work", help="Work tracking")
 app.add_typer(leisure.app, name="leisure", help="Leisure tracking")
+app.add_typer(learning.app, name="learning", help="Learning tracking")
+app.add_typer(social.app, name="social", help="Social tracking")
+app.add_typer(goal.app, name="goal", help="Goal tracking")
 app.add_typer(report.app, name="report", help="Generate reports")
 
 

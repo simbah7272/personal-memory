@@ -21,11 +21,16 @@ class WorkRepository(BaseRepository[WorkRecord]):
         self,
         user_id: int,
         record_date: date,
+        task_type: str,
         task_name: str,
         duration_hours: Decimal,
         value_description: str | None = None,
-        tags: str | None = None,
+        project_id: int | None = None,
+        priority: str = "medium",
         status: str = "completed",
+        start_time: object | None = None,
+        end_time: object | None = None,
+        tags: list | None = None,
         raw_text: str | None = None,
     ) -> WorkRecord:
         """
@@ -34,11 +39,16 @@ class WorkRepository(BaseRepository[WorkRecord]):
         Args:
             user_id: User ID
             record_date: Record date
+            task_type: Task type (开发/会议/文档/学习/管理/协作)
             task_name: Task name
             duration_hours: Duration in hours
             value_description: Value description
-            tags: Comma-separated tags
+            project_id: Project ID
+            priority: Priority (high/medium/low)
             status: Task status
+            start_time: Start time
+            end_time: End time
+            tags: Tags list
             raw_text: Original input text
 
         Returns:
@@ -47,11 +57,16 @@ class WorkRepository(BaseRepository[WorkRecord]):
         db_obj = WorkRecord(
             user_id=user_id,
             record_date=record_date,
+            task_type=task_type,
             task_name=task_name,
             duration_hours=duration_hours,
             value_description=value_description,
-            tags=tags,
+            project_id=project_id,
+            priority=priority,
             status=status,
+            start_time=start_time,
+            end_time=end_time,
+            tags=tags,
             raw_text=raw_text,
         )
         self.db.add(db_obj)

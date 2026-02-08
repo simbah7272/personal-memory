@@ -169,3 +169,59 @@ class TextParser:
             schema=schema
         )
         return self.ai.parse(formatted_prompt, context={})
+
+    def parse_learning(self, text: str, record_date: date | None = None) -> Dict[str, Any]:
+        """
+        Parse learning-related text.
+
+        Args:
+            text: Natural language text describing a learning record
+            record_date: Date to use (defaults to today)
+
+        Returns:
+            Parsed learning data as dictionary
+        """
+        if record_date is None:
+            record_date = date.today()
+
+        prompt = self._load_prompt("parse_learning.txt")
+        formatted_prompt = prompt.format(text=text, today=self._format_date(record_date))
+
+        return self.ai.parse(formatted_prompt, context={})
+
+    def parse_social(self, text: str, record_date: date | None = None) -> Dict[str, Any]:
+        """
+        Parse social-related text.
+
+        Args:
+            text: Natural language text describing a social record
+            record_date: Date to use (defaults to today)
+
+        Returns:
+            Parsed social data as dictionary
+        """
+        if record_date is None:
+            record_date = date.today()
+
+        prompt = self._load_prompt("parse_social.txt")
+        formatted_prompt = prompt.format(text=text, today=self._format_date(record_date))
+
+        return self.ai.parse(formatted_prompt, context={})
+
+    def parse_goal(self, text: str) -> Dict[str, Any]:
+        """
+        Parse goal-related text.
+
+        Args:
+            text: Natural language text describing a goal
+
+        Returns:
+            Parsed goal data as dictionary
+        """
+        prompt = self._load_prompt("parse_goal.txt")
+        formatted_prompt = prompt.format(
+            text=text,
+            today=self._format_date(date.today())
+        )
+
+        return self.ai.parse(formatted_prompt, context={})

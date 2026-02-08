@@ -23,8 +23,13 @@ class FinanceRepository(BaseRepository[FinanceRecord]):
         type: str,
         amount: Decimal,
         record_date: date,
-        category: str | None = None,
+        primary_category: str,
+        secondary_category: str | None = None,
         description: str | None = None,
+        payment_method: str | None = None,
+        merchant: str | None = None,
+        is_recurring: bool = False,
+        tags: list | None = None,
         raw_text: str | None = None,
     ) -> FinanceRecord:
         """
@@ -35,8 +40,13 @@ class FinanceRepository(BaseRepository[FinanceRecord]):
             type: Record type (income/expense)
             amount: Amount
             record_date: Record date
-            category: Category
+            primary_category: Primary category
+            secondary_category: Secondary category
             description: Description
+            payment_method: Payment method
+            merchant: Merchant name
+            is_recurring: Whether this is a recurring payment
+            tags: Tags list
             raw_text: Original input text
 
         Returns:
@@ -46,8 +56,13 @@ class FinanceRepository(BaseRepository[FinanceRecord]):
             user_id=user_id,
             type=type,
             amount=amount,
-            category=category,
+            primary_category=primary_category,
+            secondary_category=secondary_category,
             description=description,
+            payment_method=payment_method,
+            merchant=merchant,
+            is_recurring=is_recurring,
+            tags=tags,
             raw_text=raw_text,
             record_date=record_date,
         )
@@ -118,6 +133,42 @@ class FinanceRepository(BaseRepository[FinanceRecord]):
         result = self.db.execute(query)
         return list(result.scalars().all())
 
+    def get_by_secondary_category(
+        self,
+        user_id: int,
+        primary_category: str,
+        secondary_category: str | None = None,
+        limit: int = 100,
+    ) -> List[FinanceRecord]:
+        """
+        Get records by secondary category.
+
+        Args:
+            user_id: User ID
+            primary_category: Primary category
+            secondary_category: Secondary category (optional)
+            limit: Maximum records to return
+
+        Returns:
+            List of finance records
+        """
+        conditions = [
+            FinanceRecord.user_id == user_id,
+            FinanceRecord.primary_category == primary_category,
+        ]
+
+        if secondary_category:
+            conditions.append(FinanceRecord.secondary_category == secondary_category)
+
+        query = (
+            select(FinanceRecord)
+            .where(and_(*conditions))
+            .order_by(FinanceRecord.record_date.desc())
+            .limit(limit)
+        )
+        result = self.db.execute(query)
+        return list(result.scalars().all())
+
     def get_category_summary(
         self,
         user_id: int,
@@ -125,7 +176,7 @@ class FinanceRepository(BaseRepository[FinanceRecord]):
         end_date: date | None = None,
     ) -> List[dict]:
         """
-        Get summary by category.
+        Get summary by category (primary and secondary).
 
         Args:
             user_id: User ID
@@ -136,7 +187,8 @@ class FinanceRepository(BaseRepository[FinanceRecord]):
             List of category summaries
         """
         query = select(
-            FinanceRecord.category,
+            FinanceRecord.primary_category,
+            FinanceRecord.secondary_category,
             FinanceRecord.type,
             FinanceRecord.amount,
         ).where(FinanceRecord.user_id == user_id)
@@ -149,15 +201,20 @@ class FinanceRepository(BaseRepository[FinanceRecord]):
         result = self.db.execute(query)
         records = result.all()
 
-        # Aggregate by category and type
+        # Aggregate by primary_category, secondary_category and type
         summary = {}
-        for category, type_, amount in records:
-            key = (category or "未分类", type_)
+        for primary_cat, secondary_cat, type_, amount in records:
+            key = (primary_cat, secondary_cat or "无", type_)
             if key not in summary:
                 summary[key] = Decimal("0")
             summary[key] += amount
 
         return [
-            {"category": cat, "type": type_, "total": float(amount)}
-            for (cat, type_), amount in summary.items()
+            {
+                "primary_category": pri_cat,
+                "secondary_category": sec_cat,
+                "type": type_,
+                "total": float(amount),
+            }
+            for (pri_cat, sec_cat, type_), amount in summary.items()
         ]

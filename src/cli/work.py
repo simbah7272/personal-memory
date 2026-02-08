@@ -32,11 +32,13 @@ def add(text: str = typer.Argument(..., help="Natural language description of wo
             console.print(
                 f"💼 [green]Successfully added work record[/green]: {record.task_name}"
             )
+            console.print(f"  Type: {record.task_type} | Priority: {record.priority}")
             console.print(f"  Duration: {record.duration_hours} hours")
             if record.value_description:
                 console.print(f"  Value: {record.value_description}")
             if record.tags:
-                console.print(f"  Tags: {record.tags}")
+                tags_display = ", ".join(record.tags)
+                console.print(f"  Tags: {tags_display}")
 
     except PersonalMemoryError as e:
         console.print(f"[red]Error:[/red] {e}")
@@ -67,18 +69,25 @@ def list_records(
             # Create table
             table = Table(title=f"Work Records (Last {days} days)")
             table.add_column("Date", style="cyan")
+            table.add_column("Type", style="magenta")
             table.add_column("Task", style="green")
             table.add_column("Duration", justify="right", style="yellow")
+            table.add_column("Priority", justify="center")
             table.add_column("Tags")
             table.add_column("Value")
 
             total_hours = Decimal("0")
             for record in records:
+                # Convert tags list to string
+                tags_display = ", ".join(record.tags) if record.tags else "-"
+
                 table.add_row(
                     str(record.record_date),
-                    record.task_name,
+                    record.task_type,
+                    record.task_name[:30] + "..." if len(record.task_name) > 30 else record.task_name,
                     f"{record.duration_hours}h",
-                    record.tags or "-",
+                    record.priority,
+                    tags_display,
                     record.value_description or "-",
                 )
                 total_hours += record.duration_hours

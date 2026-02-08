@@ -21,9 +21,14 @@ class LeisureRepository(BaseRepository[LeisureRecord]):
         self,
         user_id: int,
         record_date: date,
+        activity_type: str,
         activity: str,
         duration_hours: Decimal,
+        location: str | None = None,
+        participants: list | None = None,
         enjoyment_score: int | None = None,
+        cost: Decimal | None = None,
+        tags: list | None = None,
         notes: str | None = None,
         raw_text: str | None = None,
     ) -> LeisureRecord:
@@ -33,9 +38,14 @@ class LeisureRepository(BaseRepository[LeisureRecord]):
         Args:
             user_id: User ID
             record_date: Record date
-            activity: Activity name
+            activity_type: Activity type (运动/娱乐/户外/文化/放松)
+            activity: Activity description
             duration_hours: Duration in hours
+            location: Location
+            participants: List of participants
             enjoyment_score: Enjoyment score (1-5)
+            cost: Cost amount
+            tags: Tags list
             notes: Additional notes
             raw_text: Original input text
 
@@ -45,9 +55,14 @@ class LeisureRepository(BaseRepository[LeisureRecord]):
         db_obj = LeisureRecord(
             user_id=user_id,
             record_date=record_date,
+            activity_type=activity_type,
             activity=activity,
             duration_hours=duration_hours,
+            location=location,
+            participants=participants,
             enjoyment_score=enjoyment_score,
+            cost=cost,
+            tags=tags,
             notes=notes,
             raw_text=raw_text,
         )

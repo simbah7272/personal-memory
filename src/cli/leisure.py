@@ -66,26 +66,45 @@ def list_records(
             # Create table
             table = Table(title=f"Leisure Records (Last {days} days)")
             table.add_column("Date", style="cyan")
+            table.add_column("Type", style="magenta")
             table.add_column("Activity", style="green")
             table.add_column("Duration", justify="right", style="yellow")
             table.add_column("Enjoyment", justify="center")
-            table.add_column("Notes")
+            table.add_column("Cost", justify="right", style="blue")
+            table.add_column("Details")
 
             total_hours = Decimal("0")
+            total_cost = Decimal("0")
             for record in records:
                 enjoyment = f"{record.enjoyment_score}/5" if record.enjoyment_score else "-"
+                cost_display = f"¥{record.cost}" if record.cost else "-"
+
+                # Build details column
+                details = []
+                if record.location:
+                    details.append(f"📍{record.location}")
+                if record.participants:
+                    details.append(f"👥{', '.join(record.participants)}")
+                details_str = " | ".join(details) if details else "-"
+
                 table.add_row(
                     str(record.record_date),
-                    record.activity,
+                    record.activity_type,
+                    record.activity[:20] + "..." if len(record.activity) > 20 else record.activity,
                     f"{record.duration_hours}h",
                     enjoyment,
-                    record.notes or "-",
+                    cost_display,
+                    details_str,
                 )
                 total_hours += record.duration_hours
+                if record.cost:
+                    total_cost += record.cost
 
             console.print(table)
             console.print()
             console.print(f"[cyan]Total Leisure Hours: [bold]{total_hours}[/bold]")
+            if total_cost > 0:
+                console.print(f"[cyan]Total Cost: [bold blue]¥{total_cost}[/bold blue]")
 
     except Exception as e:
         console.print(f"[red]Error:[/red] {e}")

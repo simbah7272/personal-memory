@@ -30,9 +30,12 @@ def add(text: str = typer.Argument(..., help="Natural language description of th
 
             # Display result
             type_icon = "💰" if record.type == "income" else "💸"
+            category_display = f"{record.primary_category}"
+            if record.secondary_category:
+                category_display += f" > {record.secondary_category}"
             console.print(
                 f"{type_icon} [green]Successfully added[/green]: "
-                f"{record.type} {record.amount}元 - {record.description or record.category or ''}"
+                f"{record.type} {record.amount}元 - {record.description or category_display}"
             )
     except PersonalMemoryError as e:
         console.print(f"[red]Error:[/red] {e}")
@@ -82,11 +85,14 @@ def list_records(
 
             for record in records:
                 type_display = "💰 收入" if record.type == "income" else "💸 支出"
+                category_display = record.primary_category or "-"
+                if record.secondary_category:
+                    category_display += f" > {record.secondary_category}"
                 table.add_row(
                     str(record.record_date),
                     type_display,
                     f"¥{record.amount:.2f}",
-                    record.category or "-",
+                    category_display,
                     record.description or "-",
                 )
                 if record.type == "income":

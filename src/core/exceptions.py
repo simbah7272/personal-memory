@@ -29,3 +29,18 @@ class DatabaseError(PersonalMemoryError):
 class UserNotFoundError(PersonalMemoryError):
     """Raised when a user is not found."""
     pass
+
+
+class IntentRecognitionError(PersonalMemoryError):
+    """Raised when AI intent recognition fails."""
+    pass
+
+
+class LowConfidenceError(PersonalMemoryError):
+    """Raised when AI confidence is below threshold."""
+    pass
+
+
+class QueryGenerationError(PersonalMemoryError):
+    """Raised when AI query generation fails."""
+    pass
