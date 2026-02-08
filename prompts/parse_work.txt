@@ -1,0 +1,33 @@
+Parse the following text into a work record. Extract task name, duration, value description, tags, and date.
+
+Text: {text}
+
+IMPORTANT: Respond ONLY with a raw JSON object. Do NOT wrap it in markdown code blocks. Do NOT add any explanatory text. The response must start with "{{" and end with "}}".
+
+Required JSON format (exactly match this structure):
+{{
+  "task_name": "name of the task or activity",
+  "duration_hours": number (e.g., 8.0),
+  "value_description": "what value was created or achieved (or null)",
+  "tags": "comma-separated tags (or null)",
+  "status": "completed",
+  "record_date": "YYYY-MM-DD (use today if not specified: {today})"
+}}
+
+Rules:
+- Extract the main task/activity as task_name
+- Duration should be in hours as a decimal number
+- Try to identify the value or outcome of the work
+- Tags can include project names, technologies, or work categories
+- Status is typically "completed" for past work
+- If date is not specified, use today's date
+
+Examples:
+Input: "今天工作8小时，完成了用户认证模块"
+Output: {{"task_name": "完成了用户认证模块", "duration_hours": 8.0, "value_description": "完成用户认证功能开发", "tags": "开发,用户认证", "status": "completed", "record_date": "{today}"}}
+
+Input: "开了2个小时会，讨论了产品方案"
+Output: {{"task_name": "开会讨论产品方案", "duration_hours": 2.0, "value_description": "讨论并确定产品方案", "tags": "会议,产品", "status": "completed", "record_date": "{today}"}}
+
+Input: "修复了3个bug"
+Output: {{"task_name": "修复bug", "duration_hours": 2.0, "value_description": "修复3个bug", "tags": "开发,修复", "status": "completed", "record_date": "{today}"}}

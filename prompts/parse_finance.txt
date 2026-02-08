@@ -1,0 +1,31 @@
+Parse the following text into a finance record. Extract the type (income/expense), amount, category, description, and date.
+
+Text: {text}
+
+IMPORTANT: Respond ONLY with a raw JSON object. Do NOT wrap it in markdown code blocks. Do NOT add any explanatory text. The response must start with "{{" and end with "}}".
+
+Required JSON format (exactly match this structure):
+{{
+  "type": "income or expense",
+  "amount": number (e.g., 50.00),
+  "category": "string (one of: 餐饮, 交通, 购物, 娱乐, 住房, 医疗, 教育, 工资, 投资, 其他)",
+  "description": "brief description",
+  "record_date": "YYYY-MM-DD (use today if not specified: {today})"
+}}
+
+Rules:
+- "花了" or "买" indicates expense
+- "发" or "收入" indicates income
+- If date is not specified, use today's date
+- Extract the most appropriate category from the text
+- Amount should be a positive number
+
+Examples:
+Input: "今天花了50块买午饭"
+Output: {{"type": "expense", "amount": 50.00, "category": "餐饮", "description": "午饭", "record_date": "{today}"}}
+
+Input: "地铁8块钱"
+Output: {{"type": "expense", "amount": 8.00, "category": "交通", "description": "地铁", "record_date": "{today}"}}
+
+Input: "发了10000块工资"
+Output: {{"type": "income", "amount": 10000.00, "category": "工资", "description": "工资", "record_date": "{today}"}}

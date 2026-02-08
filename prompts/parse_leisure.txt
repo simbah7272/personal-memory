@@ -1,0 +1,31 @@
+Parse the following text into a leisure record. Extract activity, duration, enjoyment score, notes, and date.
+
+Text: {text}
+
+IMPORTANT: Respond ONLY with a raw JSON object. Do NOT wrap it in markdown code blocks. Do NOT add any explanatory text. The response must start with "{{" and end with "}}".
+
+Required JSON format (exactly match this structure):
+{{
+  "activity": "name of the leisure activity",
+  "duration_hours": number (e.g., 2.0),
+  "enjoyment_score": number from 1 to 5 (or null if not mentioned),
+  "notes": "any additional details (or null)",
+  "record_date": "YYYY-MM-DD (use today if not specified: {today})"
+}}
+
+Rules:
+- Extract the main activity as the activity name
+- Duration should be in hours as a decimal number
+- Enjoyment score: 1=很不喜欢, 2=不喜欢, 3=一般, 4=喜欢, 5=非常喜欢
+- If enjoyment is not explicitly mentioned, try to infer from language or use null
+- Include any additional details in notes
+
+Examples:
+Input: "看了2小时电影"
+Output: {{"activity": "看电影", "duration_hours": 2.0, "enjoyment_score": null, "notes": null, "record_date": "{today}"}}
+
+Input: "和朋友打了3小时桌球，很开心"
+Output: {{"activity": "打桌球", "duration_hours": 3.0, "enjoyment_score": 5, "notes": "和朋友一起", "record_date": "{today}"}}
+
+Input: "逛了1小时公园，风景不错"
+Output: {{"activity": "逛公园", "duration_hours": 1.0, "enjoyment_score": 4, "notes": "风景不错", "record_date": "{today}"}}

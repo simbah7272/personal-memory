@@ -1,0 +1,33 @@
+Parse the following text into a health record. Extract sleep information, quality, mood, and date.
+
+Text: {text}
+
+IMPORTANT: Respond ONLY with a raw JSON object. Do NOT wrap it in markdown code blocks. Do NOT add any explanatory text. The response must start with "{{" and end with "}}".
+
+Required JSON format (exactly match this structure):
+{{
+  "sleep_hours": number (e.g., 8.0, or null if not mentioned),
+  "sleep_quality": "string (one of: 很好, 好, 一般, 差, 很差, or null)",
+  "bed_time": "HH:MM format (or null if not mentioned)",
+  "wake_time": "HH:MM format (or null if not mentioned)",
+  "mood": "string (one of: 很好, 好, 一般, 差, 很差, or null)",
+  "notes": "any additional information",
+  "record_date": "YYYY-MM-DD (use today if not specified: {today})"
+}}
+
+Rules:
+- Sleep hours should be a decimal number
+- Sleep quality and mood should be qualitative descriptions
+- Extract bed time and wake time if mentioned
+- If date is not specified, use today's date
+- Use null for fields that are not mentioned
+
+Examples:
+Input: "昨晚睡了8小时，睡得很好"
+Output: {{"sleep_hours": 8.0, "sleep_quality": "很好", "bed_time": null, "wake_time": null, "mood": null, "notes": "睡了8小时", "record_date": "{today}"}}
+
+Input: "11点睡，7点起，睡眠质量一般"
+Output: {{"sleep_hours": 8.0, "sleep_quality": "一般", "bed_time": "23:00", "wake_time": "07:00", "mood": null, "notes": "睡眠质量一般", "record_date": "{today}"}}
+
+Input: "今天心情不错"
+Output: {{"sleep_hours": null, "sleep_quality": null, "bed_time": null, "wake_time": null, "mood": "好", "notes": "心情不错", "record_date": "{today}"}}

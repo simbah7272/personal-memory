@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  personal-memory:
+    build: .
+    container_name: personal-memory
+    volumes:
+      - ./data:/app/data
+      - ./.env:/app/.env
+    environment:
+      - PYTHONPATH=/app
+    stdin_open: true
+    tty: true
