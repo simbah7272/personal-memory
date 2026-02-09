@@ -34,11 +34,6 @@ def daily(report_date: str = typer.Argument(None, help="Date in YYYY-MM-DD forma
                 end_date=report_date,
             )
 
-            health_record = service.health_repo.get_by_date(
-                user_id=service.user_id,
-                record_date=report_date,
-            )
-
             work_records = service.work_repo.get_by_date_range(
                 user_id=service.user_id,
                 start_date=report_date,
@@ -74,13 +69,18 @@ def daily(report_date: str = typer.Argument(None, help="Date in YYYY-MM-DD forma
                 console.print(f"  Total Expense: ¥{total_expense:.2f}")
                 console.print()
 
-            # Health section
-            if health_record:
+            # Health section - get all health records for the day
+            health_records = service.health_repo.get_by_date_range(
+                user_id=service.user_id,
+                start_date=report_date,
+                end_date=report_date,
+            )
+            if health_records:
                 console.print("[bold blue]😴 Health[/bold blue]")
-                if health_record.sleep_hours:
-                    console.print(f"  Sleep: {health_record.sleep_hours}h ({health_record.sleep_quality or '-'})")
-                if health_record.mood:
-                    console.print(f"  Mood: {health_record.mood}")
+                for hr in health_records:
+                    value_str = f"{hr.value} {hr.unit}" if hr.value else "N/A"
+                    notes_str = f" - {hr.notes}" if hr.notes else ""
+                    console.print(f"  {hr.indicator_name}: {value_str}{notes_str}")
                 console.print()
 
             # Work section

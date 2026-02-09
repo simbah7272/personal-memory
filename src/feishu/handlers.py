@@ -350,8 +350,11 @@ class FeishuEventHandler:
             elif record_type == "health":
                 print(f"  → 调用 AI 解析健康记录...", flush=True)
                 record = await service.add_health_from_text(text)
-                sleep_info = f"{record.sleep_hours}h" if record.sleep_hours else "N/A"
-                result = f"✅ 已添加：😴 睡眠 {sleep_info} - {record.sleep_quality or 'N/A'}"
+                # Use generic indicator system
+                value_str = f"{record.value} {record.unit}" if record.value else "N/A"
+                result = f"✅ 已添加：😴 {record.indicator_name} {value_str}"
+                if record.notes:
+                    result += f" - {record.notes}"
                 print(f"  ✓ AI 解析成功", flush=True)
                 return result
 
@@ -478,11 +481,13 @@ AI 推理: {reasoning}
             total_income = sum(r.amount for r in finance_records if r.type == "income")
             result += f"💰 支出: ¥{total_expense:.2f} | 收入: ¥{total_income:.2f}\n"
 
-        # Get health record
-        health_record = self.health_repo.get_by_date(user_id, today)
-        if health_record:
-            sleep_info = f"{health_record.sleep_hours}h" if health_record.sleep_hours else "N/A"
-            result += f"😴 睡眠: {sleep_info} | 质量: {health_record.sleep_quality or 'N/A'}\n"
+        # Get health record (using generic indicator system)
+        health_records = self.health_repo.get_by_date_range(user_id, today, today)
+        if health_records:
+            # Display all health indicators for the day
+            for hr in health_records:
+                value_str = f"{hr.value} {hr.unit}" if hr.value else "N/A"
+                result += f"😴 {hr.indicator_name}: {value_str}\n"
 
         # Get work summary
         work_records = self.work_repo.get_by_date_range(user_id, today, today)
@@ -575,8 +580,9 @@ AI 推理: {reasoning}
                 return "😴 没有找到健康记录"
             result = "😴 健康记录 (最近7条)\n\n"
             for r in records:
-                sleep_info = f"{r.sleep_hours}h" if r.sleep_hours else "N/A"
-                result += f"📅 {r.record_date} | 😴 {sleep_info} | {r.sleep_quality or 'N/A'}\n"
+                value_str = f"{r.value} {r.unit}" if r.value else "N/A"
+                notes_str = f" - {r.notes}" if r.notes else ""
+                result += f"📅 {r.record_date} | 😴 {r.indicator_name}: {value_str}{notes_str}\n"
             return result
 
         elif record_type == "work":
@@ -609,5 +615,6 @@ AI 推理: {reasoning}
             if health:
                 result += "😴 健康:\n"
                 for r in health:
-                    result += f"  {r.record_date} {r.sleep_hours}h\n"
+                    value_str = f"{r.value} {r.unit}" if r.value else "N/A"
+                    result += f"  {r.record_date} {r.indicator_name}: {value_str}\n"
             return result or "暂无记录"
