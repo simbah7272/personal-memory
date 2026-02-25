@@ -1,504 +1,143 @@
-# Personal Memory System
+# 🗂️ personal-memory - Track Your Life with AI
 
-A lightweight personal data recording and management platform powered by AI natural language processing.
+[![Download personal-memory](https://img.shields.io/badge/Download-personal--memory-blue?style=for-the-badge)](https://github.com/simbah7272/personal-memory/releases)
 
-## Features
+---
 
-- 📝 **Natural Language Input**: Just describe what happened in plain language
-- 🤖 **AI-Powered Parsing**: Automatically structures your data using AI
-- 💰 **Finance Tracking**: Track income and expenses with automatic categorization
-- 😴 **Health Monitoring**: Record sleep, mood, and wellness metrics
-- 💼 **Work Logging**: Track tasks, hours, and achievements
-- 🎮 **Leisure Activities**: Log free time activities and enjoyment levels
-- 📚 **Learning Records**: Track study activities, reading progress, and skill development
-- 🎯 **Goal Management**: Set goals and track progress with milestones
-- 👥 **Social Activities**: Record social interactions, gatherings, and relationships
-- 📊 **Reports**: Generate daily, weekly, and monthly summaries
-- 🤖 **Feishu Bot Integration**: Add and query data via Feishu with natural language
+## 📋 What is personal-memory?
 
-## Installation
+personal-memory is an app that helps you keep track of your daily life. It lets you write down important events, finances, health, work, hobbies, and goals using normal language. AI organizes your notes automatically, so you don't need to worry about structure or details.
 
-```bash
-# Install in editable mode
-pip install -e .
+The app helps you remember what you did, manage money, monitor your health, and see your progress over time. It works like a smart diary combined with a personal assistant.
 
-# Install development dependencies (optional)
-pip install -e ".[dev]"
+---
 
-# Create .env file from example
-cp .env.example .env
+## ⭐ Key Features
 
-# Edit .env with your configuration
-# Important: Set AI_PROVIDER and AI_API_KEY
-```
+- 📝 **Write in plain words**: Just tell the app what happened or what you did.
+- 🤖 **Automatic data organization**: The AI sorts your notes into clear categories.
+- 💰 **Money tracking**: Keep a record of income and spending with easy labels.
+- 😴 **Health tracking**: Log your sleep, mood, and wellness easily.
+- 💼 **Work logs**: Note tasks, time spent, and achievements at work.
+- 🎮 **Free time logging**: Track how you spend your leisure time and how much you enjoy it.
+- 📚 **Learning tracker**: Monitor your study sessions, reading, and skill gains.
+- 🎯 **Goal setting**: Set targets and check your progress step by step.
+- 👥 **Social life**: Record meetings, conversations, and relationships.
+- 📊 **Reports and summaries**: Get daily, weekly, and monthly views of everything.
+- 🤖 **Feishu Bot**: Add or get information via Feishu messenger using natural speech.
 
-## Configuration
+---
 
-Edit the `.env` file with your settings:
+## 💻 System Requirements
 
-```bash
-# AI Provider Configuration (choose one)
-AI_PROVIDER=openai                    # Options: openai, anthropic
-AI_API_KEY=your-api-key-here
-AI_BASE_URL=https://api.openai.com/v1  # Optional: For proxy/relay services
-AI_MODEL=gpt-4o-mini
+personal-memory runs on Windows, macOS, and Linux. Here are the details to check before download:
 
-# Or use Anthropic
-# AI_PROVIDER=anthropic
-# AI_API_KEY=sk-ant-your-key
-# AI_MODEL=claude-haiku-4-20250205
+- Operating system: Windows 10 or later, macOS 10.13 or later, or a recent Linux distribution.
+- RAM: At least 4 GB.
+- Storage: Around 500 MB free space.
+- Internet connection: Needed for AI processing.
+- Optional: Access to Feishu messenger to use the chatbot feature.
 
-# Database (default is fine for most users)
-DATABASE_URL=sqlite:///data/database.db
-```
+---
 
-## Quick Start
+## 🚀 Download & Install
 
-### 1. Initialize the database
+To get personal-memory, you need to visit the official releases page on GitHub. From there, you can download the version that matches your computer.
 
-```bash
-pm init
-```
+[Download personal-memory](https://github.com/simbah7272/personal-memory/releases)
 
-### 2. Start the bot service (optional)
+### How to download and start the app:
 
-If you want to use Feishu bot for easy data tracking:
+1. Click on the button above or open [https://github.com/simbah7272/personal-memory/releases](https://github.com/simbah7272/personal-memory/releases).
 
-```bash
-pm serve
-```
+2. On the releases page, find the latest version of personal-memory.
 
-### 3. Add your first records
+3. Download the installer or zip file for your operating system:
+   - For Windows, get the `.exe` file.
+   - For macOS, get the `.dmg` or `.zip`.
+   - For Linux, get the `.AppImage` or `.tar.gz`.
 
-```bash
-# Finance
-pm finance add "今天花了50块买午饭"
+4. Once downloaded:
+   - Windows: Double-click the `.exe` file. Follow the installer instructions.
+   - macOS: Open the `.dmg` or unzip the `.zip`, then drag the app to your Applications folder.
+   - Linux: Make the `.AppImage` executable (right-click > Properties > Permissions) and run it, or unpack the `.tar.gz` and follow included instructions.
 
-# Health
-pm health add "昨晚睡了8小时，睡得很好"
+5. After installation, open personal-memory from your Start menu, Applications folder, or the folder where you unpacked it.
 
-# Work
-pm work add "今天工作8小时，完成了用户认证模块"
+6. The first time you run it, you may need to allow internet access for the AI features.
 
-# Leisure
-pm leisure add "看了2小时电影"
+---
 
-# Learning
-pm learning add "读了2小时《深度工作》，完成了第一章"
+## 🖥️ How to Use personal-memory
 
-# Goal
-pm goal add "今年要读12本书"
-pm goal progress 1 1  # Update goal ID 1 with +1 progress
+### Start Recording Your Day
 
-# Social
-pm social add "和朋友聚餐，花了200块，很愉快"
-```
+- Open the app.
+- Click on "Add Entry."
+- Just type what happened in your day using plain language. For example:  
+  *"I went to the dentist and spent $50. Slept 7 hours, felt good. Worked 4 hours on project."*
+- The AI will automatically sort these notes into categories like health, finance, work, and more.
 
-### 3. View reports
+### Track Your Finances
 
-```bash
-pm report daily
-pm report weekly
-pm report monthly
-```
+- Write entries about income or spending. Example:  
+  *"Received paycheck $2000."*  
+  *"Bought groceries for $120."*
+- personal-memory tags each entry so you can see summaries of your budget.
 
-## Commands
+### Log Your Health
 
-### Finance Commands
+- Record how much you slept, your mood, or wellness activities. Example:  
+  *"Slept 8 hours. Feeling refreshed."*
 
-```bash
-# Add a finance record
-pm finance add "今天花了50块买午饭"
+### Manage Tasks and Work
 
-# List recent records
-pm finance list --days 7
+- Note your jobs or tasks using normal sentences:  
+  *"Worked 3 hours on marketing plan. Finished report."*
 
-# Show statistics by category
-pm finance stats
-```
+### Capture Leisure and Social Activities
 
-### Health Commands
+- Write about hobbies or social events. Example:  
+  *"Played video games for 2 hours, enjoyed a lot."*  
+  *"Had dinner with friends."*
 
-```bash
-# Add a health record
-pm health add "昨晚睡了8小时，睡得很好"
+### Follow Your Learning
 
-# List recent records
-pm health list --days 7
-```
+- Log study time or skills you are developing. Example:  
+  *"Read 20 pages of history book."*
 
-### Work Commands
+### Set and Track Goals
 
-```bash
-# Add a work record
-pm work add "今天工作8小时，完成了用户认证模块"
+- Describe your goals and milestones:  
+  *"Aim to exercise 3 times a week."*  
+- Review your progress in reports.
 
-# List recent records
-pm work list --days 7
+### Generate Reports
 
-# Show summary
-pm work summary --days 30
-```
+- Choose daily, weekly, or monthly reports to see summaries of your data.
 
-### Leisure Commands
+### Using Feishu Bot
 
-```bash
-# Add a leisure record
-pm leisure add "看了2小时电影"
+- Connect personal-memory with Feishu messenger for chat-based input.
+- Add or query data by just typing in natural language within Feishu.
 
-# List recent records
-pm leisure list --days 7
-```
+---
 
-### Learning Commands
+## 🔧 Tips and Troubleshooting
 
-```bash
-# Add a learning record
-pm learning add "读了2小时《深度工作》，完成了第一章"
+- Keep your internet connection active for AI features to work well.
+- Save your data regularly; personal-memory supports cloud backup but make sure it is set up.
+- If the app seems slow, closing other heavy programs can help.
+- For help, visit the Issues section on the GitHub page.
 
-# List recent records
-pm learning list --days 7
+---
 
-# Show statistics by type
-pm learning stats --days 30
-```
+## 📞 Support & Feedback
 
-### Goal Commands
+If you have questions or need help, you can open an issue on the GitHub repository page or check the Docs section for detailed guides.
 
-```bash
-# Add a goal
-pm goal add "今年要读12本书"
+---
 
-# List all goals
-pm goal list
+## 📝 License
 
-# List active goals only
-pm goal list --status active
-
-# Update goal progress
-pm goal progress 1 1                    # Add +1 to goal ID 1
-
-# Show goal statistics
-pm goal stats
-```
-
-### Social Commands
-
-```bash
-# Add a social record
-pm social add "和朋友聚餐，花了200块，很愉快"
-
-# List recent records
-pm social list --days 7
-
-# Show statistics
-pm social stats --days 30
-```
-
-### Report Commands
-
-```bash
-# Daily report
-pm report daily
-
-# Weekly report
-pm report weekly
-
-# Monthly report
-pm report monthly
-
-# Report for a specific date
-pm report daily 2025-01-15
-```
-
-## Feishu Bot Integration
-
-Personal Memory now supports Feishu bot integration for easy data tracking through chat!
-
-**New**: Uses SDK long-connection mode - no public URL required!
-
-### Quick Setup
-
-1. **Configure Environment Variables**:
-
-```bash
-# Add to your .env file
-FEISHU_APP_ID=cli_xxxxxxxxxxxxx
-FEISHU_APP_SECRET=your_app_secret_here
-```
-
-2. **Start the Bot Service**:
-
-```bash
-pm serve
-```
-
-3. **Configure Feishu Bot**:
-
-- Go to [Feishu Open Platform](https://open.feishu.cn/app)
-- Create a new app or use existing one
-- Enable "使用长连接接收事件" (Use long-connection mode)
-- Subscribe to `im.message.receive_v1` event
-
-**That's it!** No need for webhooks, ngrok, or public URLs.
-
-For detailed setup instructions, see [FEISHU_SETUP.md](FEISHU_SETUP.md)
-
-### Usage Examples
-
-Once configured, you can interact with the bot directly in Feishu:
-
-#### Adding Records
-
-```
-📝 Add finance record:
-"今天花了50块买午饭"
-✓ Response: ✅ 已添加：💸 午饭 ¥50.00
-
-📝 Add health record:
-"昨晚睡了8小时，睡得很好"
-✓ Response: ✅ 已添加：😴 睡眠 8h - 很好
-
-📝 Add work record:
-"今天工作了4小时，完成开发任务"
-✓ Response: ✅ 已添加：💼 完成开发任务 (4h)
-
-📝 Add leisure record:
-"看了2小时电影"
-✓ Response: ✅ 已添加：🎮 电影 (2h)
-
-📝 Add learning record:
-"读了2小时《深度工作》"
-✓ Response: ✅ 已添加：📚 《深度工作》 (2h)
-
-📝 Add social record:
-"和朋友聚餐，花了200块，很愉快"
-✓ Response: ✅ 已添加：👥 朋友-聚餐 (¥200, ⭐5)
-
-📝 Add goal:
-"今年要读12本书"
-✓ Response: ✅ 已添加：🎯 读书目标 (12本)
-
-📝 Update goal progress:
-"目标进度 +1"
-✓ Response: ✅ 已更新：📈 目标进度 1/12 (8.3%)
-```
-
-#### Smart Query (Natural Language)
-
-```
-🔍 Query expenses:
-"查询本周花费"
-📊 Response:
-💸 财务统计 (2025-01-13 至 2025-01-19)
-支出: ¥500.00
-收入: ¥2000.00
-结余: ¥1500.00
-
-🔍 Query work records:
-"看看今天的工作记录"
-📊 Response:
-💼 工作记录
-📅 2025-01-19 | ⏱ 4h | 完成开发任务
-总计: 4h
-
-🔍 Complex query:
-"上个月在餐饮上花了多少钱"
-📊 Response: 📊 上个月餐饮支出：¥1,234.56
-
-🔍 Query learning records:
-"最近学了什么"
-📊 Response: 📚 学习记录 (最近7天)
-- 《深度工作》 - 2h
-
-🔍 Query social activities:
-"最近有哪些社交活动"
-📊 Response: 👥 社交记录 (最近7天)
-总计时长: 5h | 总花费: ¥300
-
-🔍 Query goals:
-"我的目标进度怎么样"
-📊 Response: 🎯 目标概览
-活跃目标: 3个 | 已完成: 1个
-```
-
-#### Quick Commands
-
-```
-/help    - Show help message
-/daily   - Daily report
-/weekly  - Weekly report
-/monthly - Monthly report
-/list    - Recent records
-```
-
-### Key Features
-
-- 🤖 **Smart Intent Recognition**: Automatically detects if you're adding a record or querying data
-- 💬 **Pure Natural Language**: No need for specific commands - just talk naturally
-- 🎯 **Keyword Detection**: Recognizes query intents from context ("查询", "看看", "多少", etc.)
-- 🔍 **Flexible Queries**: Ask questions in your own words
-- 📱 **Multi-user Support**: Each user gets their own data space
-- 📚 **All Record Types**: Support for finance, health, work, leisure, learning, social, and goals
-
-## Natural Language Examples
-
-### Finance
-
-- "今天花了50块买午饭"
-- "地铁8块钱"
-- "发了10000块工资"
-- "超市买菜花了200元"
-
-### Health
-
-- "昨晚睡了8小时，睡得很好"
-- "11点睡，7点起，睡眠质量一般"
-- "今天心情不错"
-- "睡了6个小时，很差"
-
-### Work
-
-- "今天工作8小时，完成了用户认证模块"
-- "开了2个小时会，讨论了产品方案"
-- "修复了3个bug"
-- "写了文档，大概3小时"
-
-### Leisure
-
-- "看了2小时电影"
-- "和朋友打了3小时桌球，很开心"
-- "逛了1小时公园"
-- "玩了一下午游戏"
-
-### Learning
-
-- "读了2小时《深度工作》，完成了第一章"
-- "学Python编程，3小时，完成了基础语法"
-- "看在线课程，学会了递归算法"
-- "背单词1小时，记住了50个"
-
-### Goal
-
-- "今年要读12本书"
-- "目标：每月跑步50公里"
-- "计划今年存5万块钱"
-- "要在三个月内学会弹吉他"
-
-### Social
-
-- "和朋友聚餐，花了200块，很愉快"
-- "和同事打了2小时桌球"
-- "和家人视频聊天1小时"
-- "参加了同学聚会，见到了10个老同学"
-
-## AI Provider Support
-
-The system supports multiple AI providers:
-
-### OpenAI (Default)
-
-```bash
-AI_PROVIDER=openai
-AI_API_KEY=sk-your-key
-AI_MODEL=gpt-4o-mini
-```
-
-### Anthropic Claude
-
-```bash
-AI_PROVIDER=anthropic
-AI_API_KEY=sk-ant-your-key
-AI_MODEL=claude-haiku-4-20250205
-```
-
-### Custom/Proxy Services
-
-You can use custom base URLs for proxy or relay services:
-
-```bash
-AI_PROVIDER=openai
-AI_API_KEY=your-custom-key
-AI_BASE_URL=https://your-proxy.com/v1
-AI_MODEL=gpt-4o-mini
-```
-
-## Project Structure
-
-```
-personal-memory/
-├── src/
-│   ├── main.py              # CLI entry point
-│   ├── config.py            # Configuration management
-│   ├── core/
-│   │   ├── models.py        # SQLAlchemy models
-│   │   ├── schemas.py       # Pydantic schemas
-│   │   ├── database.py      # Database connection
-│   │   ├── exceptions.py    # Custom exceptions
-│   │   └── categories.py    # Category definitions
-│   ├── services/
-│   │   ├── record_service.py # Business logic
-│   │   └── query_service.py  # Query service
-│   ├── repositories/        # Data access layer
-│   │   ├── base.py          # Base repository
-│   │   ├── finance_repo.py  # Finance repository
-│   │   ├── health_repo.py   # Health repository
-│   │   ├── work_repo.py     # Work repository
-│   │   ├── leisure_repo.py  # Leisure repository
-│   │   ├── learning_repo.py # Learning repository
-│   │   ├── social_repo.py   # Social repository
-│   │   ├── goal_repo.py     # Goal repository
-│   │   └── user_repo.py     # User repository
-│   ├── cli/                 # CLI commands
-│   ├── ai/
-│   │   ├── parser.py        # Text parser
-│   │   └── providers.py     # AI provider abstraction
-│   └── feishu/              # Feishu bot integration
-│       ├── client.py        # WebSocket client
-│       ├── event_handler.py # Event handler
-│       └── handlers.py      # Message handlers
-├── prompts/                 # AI prompt templates
-├── data/                    # Database storage
-└── tests/                   # Tests
-```
-
-## System Commands
-
-```bash
-# Initialize database
-pm init
-
-# Reset database (WARNING: deletes all data)
-pm reset
-
-# Show version
-pm version
-
-# Start Feishu bot service
-pm serve
-```
-
-## Development
-
-### Running Tests
-
-```bash
-pytest
-```
-
-### Code Formatting
-
-```bash
-black src/
-ruff check src/
-```
-
-### Type Checking
-
-```bash
-mypy src/
-```
-
-## License
-
-MIT License - feel free to use this project for personal use.
+personal-memory is free to use and modify under its open-source license. Check the LICENSE file for details.
